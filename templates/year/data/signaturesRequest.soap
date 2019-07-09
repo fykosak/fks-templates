@@ -9,7 +9,7 @@
 	<SOAP-ENV:Body>
 		<GetExportRequest>
 			<qid>tex.emails</qid>
-			<parameter name="contest">fykos</parameter>
+			<parameter name="contest">SEM</parameter>
 		</GetExportRequest>
 	</SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
