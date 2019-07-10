@@ -31,32 +31,32 @@ stats:
 		  make newstats; \
 		  if [ -f data/results.xml ]; then \
 		    if cmp -s "data/results.xml" "data/results_new.xml" ; then \
-		      echo "Results did not changed"; \
+		      echo "Results have not changed"; \
 		    else \
-		      echo "Results changed"; \
+		      echo "Results have changed"; \
 		      rm data/results_old.xml; \
 		      mv data/results.xml data/results_old.xml; \
 		      echo "Deleting old results"; \
 		    fi; \
 		  else \
-		    echo "Results do not exist."; \
+		    echo "Results do not exist"; \
 		  fi; \
 		  if [ -f data/stats.xml ]; then \
 		    if cmp -s "data/stats.xml" "data/stats_new.xml" ; then \
-		      echo "Stats did not changed"; \
+		      echo "Stats have not changed"; \
 		    else \
-		      echo "Stats changed"; \
+		      echo "Stats have changed"; \
 		      rm data/stats_old.xml; \
 		      mv data/stats.xml data/stats_old.xml; \
 		      echo "Deleting old stats"; \
 		    fi; \
 		  else \
-		    echo "Stats don't exist."; \
+		    echo "Stats do not exist"; \
 		  fi; \
 		  rm data/results_new.xml data/stats_new.xml; \
 		fi; \
 	else \
-	  echo "IPv4 is down, unable update results"; \
+	  echo "IPv4 is down, unable to update results"; \
 	fi
 
 
