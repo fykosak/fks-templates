@@ -448,6 +448,7 @@ $(RESULTS)/vysledky%.tex: $(GLOB_DATA)/results.xml $(XSL_RESULTS)
 		--stringparam category $(word 2,$(subst -, ,$(subst .tex,,$(subst $(RESULTS)/vysledky,,$@)))) \
 		--stringparam series   $(word 1,$(subst -, ,$(subst .tex,,$(subst $(RESULTS)/vysledky,,$@)))) \
 		$(XSL_RESULTS) $< >$@
+	sed -ri 's/^((.*&){13}) (.*) (&.*)/\1\\hotfix{\3}\4/' $@
 
 $(RESULTS)/statistiky%.csv: $(GLOB_DATA)/stats.xml $(XSL_STATS)
 	xsltproc --stringparam series $* \
@@ -470,7 +471,7 @@ $(RESULTS)/%.tex: $(RESULTS)/%.csv
     
 
 # == Author solutions ==
-XELATEX_P=xelatex -output-directory $(@D) -jobname '$(basename $(@F))' '\documentclass[SEM]{fkssolution}\setcounter{year}{YEAR}\input{$<}\begin{document}\problemsolutionsingle\makefooter\end{document}'
+XELATEX_P=xelatex -output-directory $(@D) -jobname '$(basename $(@F))' '\documentclass[fykos]{fkssolution}\setcounter{year}{33}\input{$<}\begin{document}\problemsolutionsingle\makefooter\end{document}'
 
 # Ugly but working
 $(OUT)/reseni$(BATCHNO)-1.pdf: $(addprefix $(PROBLEMS)/, $(problem$(BATCHNO)_1)) $(SIGNATURES)
@@ -497,4 +498,3 @@ $(OUT)/reseni$(BATCHNO)-7.pdf: $(addprefix $(PROBLEMS)/, $(problem$(BATCHNO)_7))
 $(OUT)/reseni$(BATCHNO)-8.pdf: $(addprefix $(PROBLEMS)/, $(problem$(BATCHNO)_8)) $(SIGNATURES)
 	$(XELATEX_P)
 	$(XELATEX_P)
-
