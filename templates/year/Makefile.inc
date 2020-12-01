@@ -448,7 +448,7 @@ $(RESULTS)/vysledky%.tex: $(GLOB_DATA)/results.xml $(XSL_RESULTS)
 		--stringparam category $(word 2,$(subst -, ,$(subst .tex,,$(subst $(RESULTS)/vysledky,,$@)))) \
 		--stringparam series   $(word 1,$(subst -, ,$(subst .tex,,$(subst $(RESULTS)/vysledky,,$@)))) \
 		$(XSL_RESULTS) $< >$@
-	sed -ri 's/^((.*&){13}) (.*) (&.*)/\1\\hotfix{\3}\4/' $@
+	sed -ri 's/^((.*&){13}) (.*) (&.*)/\1\\calcYearPercent{\3}\4/' $@
 
 $(RESULTS)/statistiky%.csv: $(GLOB_DATA)/stats.xml $(XSL_STATS)
 	xsltproc --stringparam series $* \
