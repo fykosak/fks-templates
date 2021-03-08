@@ -8,8 +8,7 @@
 	</SOAP-ENV:Header>
 	<SOAP-ENV:Body>
 		<GetExportRequest>
-			<qid>tex.emails</qid>
-			<parameter name="contest">SEM</parameter>
+			<contestId>SEM</contestId>
 		</GetExportRequest>
 	</SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
