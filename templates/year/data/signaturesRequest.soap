@@ -7,9 +7,8 @@
 		</ns1:AuthenticationCredentials>
 	</SOAP-ENV:Header>
 	<SOAP-ENV:Body>
-		<GetExportRequest>
-			<contestId>SEM</contestId>
-		</GetExportRequest>
+		<GetSignaturesRequest>
+			<contestId>SEMID</contestId>
+		</GetSignaturesRequest>
 	</SOAP-ENV:Body>
 </SOAP-ENV:Envelope>
-
