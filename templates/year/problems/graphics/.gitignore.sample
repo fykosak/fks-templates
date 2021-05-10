@@ -1,2 +1,4 @@
-*.log
+*
+!*.src.*
 *.mpx
+!.gitignore
