@@ -100,22 +100,22 @@ COPY = cp $< $@
 
 
 # == Graphics dependence ==
-# - args: 
+# - args:
 # 		$(1) - graphics base folder
 # 		$(2) - filename search pattern
 # 		$(3) - source file extension
 # 		$(4) - output file extension list (space devided)
 # 		$(5) - output subfolder (with leading /, optional)
-# - function: find sources files and print expected output file names
+# - function: find source files and print expected output file names
 define find-graphics-deps
 	$(foreach ext,$(4),$(patsubst $(1)/%.src.$(3), $(1)/$(5)%.$(ext),\
 		$(wildcard $(1)/*$(2)*.src.$(3))))
 endef
 
-# - args: 
+# - args:
 # 		$(1) - graphics base folder
 # 		$(2) - filename search pattern
-# - function: find all dependent graphics files for problem
+# - function: find all dependent graphic files for problem
 # - rules: preferably export everything to pdf (for tex), svg and png (both for web)
 # 		exceptions: export gnuplot to tex+eps; keep raster img format
 graphics-deps = \
