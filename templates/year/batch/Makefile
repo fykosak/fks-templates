@@ -74,12 +74,12 @@ define XML_DEFS
 $(ARG_XML)
 endef
 
-$(OUT)/zadaniWeb$(BATCHNO)-cs.xml: $(PROBLEMS)/web.tex $(SERIEDEP)
+$(OUT)/zadaniWeb$(BATCHNO)-cs.xml: $(PROBLEMS)/web.tex $(wildcard $(PROBLEMS)/problem$(BATCHNO)*) ../Deadline.inc
 	xelatex -output-directory $(@D) -jobname $(basename $(@F)) '$(XML_DEFS_LEGACY)\def\lang{cs}\input{$<}'
-$(OUT)/zadaniWeb$(BATCHNO)-en.xml: $(PROBLEMS)/web.tex $(SERIEDEP)
+$(OUT)/zadaniWeb$(BATCHNO)-en.xml: $(PROBLEMS)/web.tex $(wildcard $(PROBLEMS)/problem$(BATCHNO)*) ../Deadline.inc
 	xelatex -output-directory $(@D) -jobname $(basename $(@F)) '$(XML_DEFS_LEGACY)\def\lang{en}\input{$<}'
 
-$(OUT)/zadaniWeb$(BATCHNO)-new.xml: $(SERIEDEP)
+$(OUT)/zadaniWeb$(BATCHNO)-new.xml: $(wildcard $(PROBLEMS)/problem$(BATCHNO)*) ../Deadline_xml.inc
 	xelatex -output-directory $(@D) -jobname $(basename $(@F)) '$(XML_DEFS)\documentclass[SEM]{fksbase}\setcounter{year}{Y}\input{fks-web-xml}'
 	fks-web-xml.sh $@ > $@.tmp
 	cat $@.tmp | tr -d '\n' | sed 's/<\(.*\)>\s*<\/\1>//g' > $@
