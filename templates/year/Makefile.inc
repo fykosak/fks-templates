@@ -23,9 +23,11 @@ METAPOST_SVG = mpost -jobname=$(subst .src.mp,,$(<F)) -s 'outputtemplate="%j.%o"
 	cd $(@D); $(METAPOST_SVG)
 
 # -- Gnuplot figures --
-GNUPLOT = gnuplot -e "set format '$$\"%g\"$$' ; set terminal epslatex monochrome size 12.7cm,7.7cm; set output '$(@F)'" $(<F)
+GNUPLOT = gnuplot -e "set format '$$\"%g\"$$'; set terminal epslatex monochrome\
+	size 12.7cm,7.7cm; set output '$(patsubst %.eps,%.tex,$(@F))'" $(<F)
 GNUPLOT_COLOR = $(subst output ', output 'color/, $(subst monochrome,color,$(GNUPLOT)))
 
+# gnuplot with datafiles
 %.eps %.tex: %.src.plt %.src.dat
 	cd $(<D); $(GNUPLOT)
 $(PGRAPHICS)/color/%.eps $(PGRAPHICS)/color/%.tex: $(PGRAPHICS)/%.src.plt $(PGRAPHICS)/%.src.dat | $(PGRAPHICS)/color
@@ -33,6 +35,7 @@ $(PGRAPHICS)/color/%.eps $(PGRAPHICS)/color/%.tex: $(PGRAPHICS)/%.src.plt $(PGRA
 $(GRAPHICS)/color/%.eps $(GRAPHICS)/color/%.tex: $(GRAPHICS)/%.src.plt $(GRAPHICS)/%.src.dat | $(GRAPHICS)/color
 	cd $(<D); $(GNUPLOT_COLOR)
 
+# gnuplot without datafiles or with differently named datafiles
 %.eps %.tex: %.src.plt
 	cd $(<D); $(GNUPLOT)
 $(PGRAPHICS)/color/%.eps $(PGRAPHICS)/color/%.tex: $(PGRAPHICS)/%.src.plt | $(PGRAPHICS)/color
