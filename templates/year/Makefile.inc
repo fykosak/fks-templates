@@ -133,6 +133,19 @@ graphics-deps = \
 	$(call find-graphics-deps,$(1),$(2),jpg,jpg)\
 	$(call find-graphics-deps,$(1),$(2),jpeg,jpeg)
 
+# generate dependencies only needed by TeX
+graphics-deps-tex = \
+	$(call find-graphics-deps,$(1),$(2),mp, pdf)\
+	$(call find-graphics-deps,$(1),$(2),plt,tex eps)\
+	$(call find-graphics-deps,$(1),$(2),plt,tex eps,color/)\
+	$(call find-graphics-deps,$(1),$(2),ipe,pdf)\
+	$(call find-graphics-deps,$(1),$(2),svg,pdf)\
+	$(call find-graphics-deps,$(1),$(2),eps,pdf)\
+	$(call find-graphics-deps,$(1),$(2),pdf,pdf)\
+	$(call find-graphics-deps,$(1),$(2),png,png)\
+	$(call find-graphics-deps,$(1),$(2),jpg,jpg)\
+	$(call find-graphics-deps,$(1),$(2),jpeg,jpeg)
+
 
 # == Data retrieval ==
 GLOB_DATA := ../data
