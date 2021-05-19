@@ -198,8 +198,14 @@ $(RESULTS)/%.tex: $(RESULTS)/%.csv
 
 # == TEX to PDF compiler ==
 define XELATEX
-	xelatex -output-directory $(@D) -jobname '$(basename $(@F))' -no-pdf $(1) || (rm -f $@ && false)
-	xelatex -output-directory $(@D) -jobname '$(basename $(@F))' $(1) || (rm -f $@ && false)
+	xelatex -output-directory $(@D) -jobname '$(basename $(@F))' -no-pdf $(1)\
+	&& (\
+		grep -i "Package rerunfilecheck Warning: File .* has changed." $(basename $@).log && (\
+			xelatex -output-directory $(@D) -jobname '$(basename $(@F))' $(1)\
+		) || (\
+			xdvipdfmx -E $(basename $@).xdv -o $(basename $@).pdf\
+		)\
+	) || false
 endef
 
 # == Author solutions ==
