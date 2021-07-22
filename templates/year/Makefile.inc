@@ -200,7 +200,7 @@ $(RESULTS)/%.tex: $(RESULTS)/%.csv
 define XELATEX
 	xelatex -output-directory $(@D) -jobname '$(basename $(@F))' -no-pdf $(1)\
 	&& (\
-		grep -i "Package rerunfilecheck Warning: File .* has changed.\|There were undefined references." $(basename $@).log && (\
+		grep -i "Package rerunfilecheck Warning: File .* has changed.\|There were undefined references.\|Rerun to get cross-references right." $(basename $@).log && (\
 			xelatex -output-directory $(@D) -jobname '$(basename $(@F))' $(1)\
 		) || (\
 			xdvipdfmx -E $(basename $@).xdv -o $(basename $@).pdf\
