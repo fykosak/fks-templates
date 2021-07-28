@@ -8,7 +8,7 @@ include ../Deadline_xml.inc
 # == Graphics part ==
 
 # -- Folders --
-DEPS_FOLDERS = $(GRAPHICS)/color $(PGRAPHICS)/color
+DEPS_FOLDERS = $(GRAPHICS)/color $(PGRAPHICS)/color $(RESULTS)
 
 $(DEPS_FOLDERS):
 	mkdir -p $@
@@ -168,19 +168,19 @@ SIGNATURES := ../signatures.tex
 $(SIGNATURES): $(GLOB_DATA)/signatures.xml $(SIGNATURES_STYLE)
 	xsltproc $(XSL_SIGNATURES) $< >$@
 
-$(RESULTS)/vysledky%.tex: $(GLOB_DATA)/results.xml $(XSL_RESULTS)
+$(RESULTS)/vysledky%.tex: $(GLOB_DATA)/results.xml $(XSL_RESULTS) | $(RESULTS)
 	xsltproc --stringparam type brojure \
 		--stringparam category $(word 2,$(subst -, ,$(subst .tex,,$(subst $(RESULTS)/vysledky,,$@)))) \
 		--stringparam series   $(word 1,$(subst -, ,$(subst .tex,,$(subst $(RESULTS)/vysledky,,$@)))) \
 		$(XSL_RESULTS) $< >$@
 
-$(RESULTS)/statistiky%.csv: $(GLOB_DATA)/stats.xml $(XSL_STATS)
+$(RESULTS)/statistiky%.csv: $(GLOB_DATA)/stats.xml $(XSL_STATS) | $(RESULTS)
 	xsltproc --stringparam series $* \
 		$(XSL_STATS) $< >$@
 	# apply created results to statistics
 	$(STATS_SH) $(PROBLEMS) $@
 
-$(RESULTS)/%.tex: $(RESULTS)/%.csv
+$(RESULTS)/%.tex: $(RESULTS)/%.csv | $(RESULTS)
 	iconv -f latin2 -t utf8 $< | \
 	cut -d\; -f1,2,3,4,5,6,7,8,9,10,12,13,14 | \
 	sed '/^$$/d;/^%/d;s/;;/;--;/g;s/;;/;--;/g;s/;/ \& /g;s/$$/\\\\/' | sed -e '2i\\\\midrule'  > $@
