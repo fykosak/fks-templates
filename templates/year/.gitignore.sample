@@ -2,3 +2,4 @@ Makefile.conf
 Deadline.inc
 pdf/
 batch[0-9]/results/*
+batch[0-9]/out/*

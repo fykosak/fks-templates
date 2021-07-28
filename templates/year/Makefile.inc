@@ -8,7 +8,7 @@ include ../Deadline_xml.inc
 # == Graphics part ==
 
 # -- Folders --
-DEPS_FOLDERS = $(GRAPHICS)/color $(PGRAPHICS)/color $(RESULTS)
+DEPS_FOLDERS = $(GRAPHICS)/color $(PGRAPHICS)/color $(RESULTS) $(OUT)
 
 $(DEPS_FOLDERS):
 	mkdir -p $@
@@ -210,5 +210,5 @@ endef
 
 # == Author solutions ==
 .SECONDEXPANSION:
-$(OUT)/reseni%.pdf: $(PROBLEMS)/problem%.tex $$(call graphics-deps,$(PGRAPHICS),$$*) $(SIGNATURES)
+$(OUT)/reseni%.pdf: $(PROBLEMS)/problem%.tex $$(call graphics-deps,$(PGRAPHICS),$$*) $(SIGNATURES) | $(OUT)
 	$(call XELATEX,'\documentclass[SEM]{fkssolution}\setcounter{year}{YEAR}\input{$<}\begin{document}\problemsolutionsingle\makefooter\end{document}')

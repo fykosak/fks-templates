@@ -42,15 +42,15 @@ SERIEDEP=uvod$(BATCHNO).tex serial$(BATCHNO).tex $(SIGNATURES) \
 	../Deadline.inc
 
 
-$(OUT)/zadani$(BATCHNO).pdf: problems$(BATCHNO).tex $(DEPS_PROBS) ../Deadline.inc
+$(OUT)/zadani$(BATCHNO).pdf: problems$(BATCHNO).tex $(DEPS_PROBS) ../Deadline.inc | $(OUT)
 	$(call XELATEX,'\def\UseOption{web}$(ARG)\input{$<}')
-$(OUT)/serie$(BATCHNO).pdf: batch$(BATCHNO).tex $(SERIEDEP)
+$(OUT)/serie$(BATCHNO).pdf: batch$(BATCHNO).tex $(SERIEDEP) | $(OUT)
 	$(call XELATEX,'\def\UseOption{web}$(ARG)\input{$<}')
-$(OUT)/serie$(BATCHNO)-print.pdf: batch$(BATCHNO).tex $(SERIEDEP)
+$(OUT)/serie$(BATCHNO)-print.pdf: batch$(BATCHNO).tex $(SERIEDEP) | $(OUT)
 	$(call XELATEX,'\def\classoptions{twoside}\def\UseOption{print}$(ARG)\input{$<}')
-$(OUT)/serie$(BATCHNO)-book.pdf: $(OUT)/serie$(BATCHNO)-print.pdf
+$(OUT)/serie$(BATCHNO)-book.pdf: $(OUT)/serie$(BATCHNO)-print.pdf | $(OUT)
 	pdfbook --booklet true --outfile '$@' $<
-$(OUT)/serial$(BATCHNO).pdf: serial$(BATCHNO).tex $(DEPS_GRAPHICS_BATCH) $(SIGNATURES)
+$(OUT)/serial$(BATCHNO).pdf: serial$(BATCHNO).tex $(DEPS_GRAPHICS_BATCH) $(SIGNATURES) | $(OUT)
 	$(call XELATEX,'\documentclass[SEM]{fksseries}\setcounter{year}{Y}\setcounter{batch}{$(BATCHNO)}\begin{document}\input{$<}\par\makefooter\end{document}')
 
 clean:
@@ -74,12 +74,12 @@ define XML_DEFS
 $(ARG_XML)
 endef
 
-$(OUT)/zadaniWeb$(BATCHNO)-cs.xml: $(PROBLEMS)/web.tex $(wildcard $(PROBLEMS)/problem$(BATCHNO)*) ../Deadline.inc
+$(OUT)/zadaniWeb$(BATCHNO)-cs.xml: $(PROBLEMS)/web.tex $(wildcard $(PROBLEMS)/problem$(BATCHNO)*) ../Deadline.inc | $(OUT)
 	xelatex -output-directory $(@D) -jobname $(basename $(@F)) '$(XML_DEFS_LEGACY)\def\lang{cs}\input{$<}'
-$(OUT)/zadaniWeb$(BATCHNO)-en.xml: $(PROBLEMS)/web.tex $(wildcard $(PROBLEMS)/problem$(BATCHNO)*) ../Deadline.inc
+$(OUT)/zadaniWeb$(BATCHNO)-en.xml: $(PROBLEMS)/web.tex $(wildcard $(PROBLEMS)/problem$(BATCHNO)*) ../Deadline.inc | $(OUT)
 	xelatex -output-directory $(@D) -jobname $(basename $(@F)) '$(XML_DEFS_LEGACY)\def\lang{en}\input{$<}'
 
-$(OUT)/zadaniWeb$(BATCHNO)-new.xml: $(wildcard $(PROBLEMS)/problem$(BATCHNO)*) ../Deadline_xml.inc
+$(OUT)/zadaniWeb$(BATCHNO)-new.xml: $(wildcard $(PROBLEMS)/problem$(BATCHNO)*) ../Deadline_xml.inc | $(OUT)
 	xelatex -output-directory $(@D) -jobname $(basename $(@F)) '$(XML_DEFS)\documentclass[SEM]{fksbase}\setcounter{year}{Y}\input{fks-web-xml}'
 	fks-web-xml.sh $@ > $@.tmp
 	cat $@.tmp | tr -d '\n' | sed 's/<\(.*\)>\s*<\/\1>//g' > $@
