@@ -1,2 +1,6 @@
 Makefile.conf
 Deadline.inc
+signatures.tex
+pdf/
+batch[0-9]/results/*
+batch[0-9]/out/*

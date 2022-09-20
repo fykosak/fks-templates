@@ -6,32 +6,31 @@ PROBLEMS=../problems
 GRAPHICS=graphics# graphics for the leaflet
 PGRAPHICS=$(PROBLEMS)/graphics# graphics for problems
 
+ARG=\def\mdeadline{${DEADLINE[${BATCHNO}]}}\def\mdeadlineS{${DEADLINES[${BATCHNO}]}}
+
 .SUFFIXES:
 .PHONY: all clean cleanall web book
 
-ARG=\def\mdeadline{${DEADLINE[${BATCHNO}]}}\def\mdeadlineS{${DEADLINES[${BATCHNO}]}}
-ARG_XML=\def\mdeadline{${DEADLINE_XML[${BATCHNO}]}}\def\mdeadlineS{${DEADLINES_XML[${BATCHNO}]}}
-
 # == Main targets ==
-all: web book 
+all: web book
 include ../Makefile.inc
 web: $(OUT)/leaflet$(BATCHNO).pdf
 book: $(OUT)/leaflet$(BATCHNO)-book.pdf
-$(eval PROBS=$(addsuffix }, $(addprefix $${problem$(BATCHNO)_, 1 2 3 4 5 6 7 8)))
-PROBDEP= $(addprefix $(PROBLEMS)/, $(PROBS))
-GRAPHDEP=
 
-SERIEDEP=$(PROBDEP) leaflet$(BATCHNO).tex return.tex proc_resit.tex uvod.tex $(addprefix $(GRAPHICS)/, $(GRAPHDEP)) ../Deadline.inc
+# == problem and graphics dependence ==
+DEPS_PROBS= $(wildcard $(PROBLEMS)/problem$(BATCHNO)*) $(call graphics-deps,$(PGRAPHICS),$(BATCHNO)-)
+DEPS_GRAPHICS_LEAFLET = $(call graphics-deps,$(GRAPHICS))
+DEPS_GRAPHICS_MANUAL=
 
-XELATEX=xelatex -output-directory $(@D) -jobname $(basename $(@F)) '\def\UseOption{web}$(ARG)\input{$<}'
+SERIEDEP=\
+	$(DEPS_PROBS) $(DEPS_GRAPHICS_LEAFLET) $(DEPS_GRAPHICS_MANUAL)\
+	return.tex proc_resit.tex uvod.tex ../Deadline.inc
+
 $(OUT)/leaflet$(BATCHNO).pdf: leaflet$(BATCHNO).tex $(SERIEDEP)
-	$(XELATEX)
-	$(XELATEX)
+	$(call XELATEX,'\def\UseOption{web}$(ARG)\input{$<}')
 
-XELATEX2=xelatex -output-directory $(@D) -jobname '$(basename $(@F))' '\def\classoptions{twoside}\def\UseOption{print}$(ARG)\input{$<}'
 $(OUT)/leaflet$(BATCHNO)-print.pdf: leaflet$(BATCHNO).tex $(SERIEDEP)
-	$(XELATEX2)
-	$(XELATEX2)
+	$(call XELATEX,'\def\classoptions{twoside}\def\UseOption{print}$(ARG)\input{$<}')
 
 $(OUT)/leaflet$(BATCHNO)-book.pdf: $(OUT)/leaflet$(BATCHNO)-print.pdf
 	pdfbook --booklet true --outfile '$@' $<

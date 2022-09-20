@@ -12,6 +12,7 @@ $(SUBDIRS):
 
 pdf: $(SUBDIRS)
 	find pdf -name "*.pdf" | xargs rm -f
+	mkdir -p pdf/batch pdf/leaflet pdf/reseni pdf/serial
 	cp batch?/out/*.pdf leaflet?/out/*.pdf pdf/ ||  :
 	mv pdf/leaflet?.pdf       pdf/leaflet ||  :
 	mv pdf/leaflet?-print.pdf pdf/leaflet ||  :

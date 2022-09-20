@@ -3,7 +3,6 @@
 BATCHNO=B
 SOLVEDBATCHNO=AB
 RESULTSLIST=resultslist
-PROBLEMSLIST=problemslist
 OUT=out
 PROBLEMS=../problems
 GRAPHICS=graphics# graphics for the batch (series)
@@ -14,54 +13,45 @@ ARG=\def\mdeadline{${DEADLINE[${BATCHNO}]}}\def\mdeadlineS{${DEADLINES[${BATCHNO
 ARG_XML=\def\mdeadline{${DEADLINE_XML[${BATCHNO}]}}\def\mdeadlineS{${DEADLINES_XML[${BATCHNO}]}}
 
 .SUFFIXES:
-.PHONY: all clean cleanall web book print solutions problems series
+.PHONY: all clean cleanall brojure web book print solutions problems series
 
 # == Main targets ==
-all: web print solutions series
+all: brojure web print solutions series
 include ../Makefile.inc
-web: $(OUT)/serie$(BATCHNO).pdf $(OUT)/zadaniWeb$(BATCHNO)-cs.xml $(OUT)/zadaniWeb$(BATCHNO)-en.xml $(OUT)/zadaniWeb$(BATCHNO)-new.xml $(OUT)/zadani$(BATCHNO).pdf
+brojure: $(OUT)/serie$(BATCHNO).pdf $(OUT)/zadani$(BATCHNO).pdf
+web: $(OUT)/zadaniWeb$(BATCHNO)-cs.xml $(OUT)/zadaniWeb$(BATCHNO)-en.xml $(OUT)/zadaniWeb$(BATCHNO)-new.xml
 book: $(OUT)/serie$(BATCHNO)-book.pdf
 print: $(OUT)/serie$(BATCHNO)-print.pdf
-solutions: $(addsuffix .pdf, $(addprefix $(OUT)/reseni$(BATCHNO)-, $(PROBLEMSLIST)))
-series: $(OUT)/serial$(BATCHNO).pdf 
-$(eval PROBS=$(addprefix $${problem,$(addsuffix },$(foreach foo,$(SOLVEDBATCHNO) $(BATCHNO),$(addprefix $(foo)_,$(PROBLEMSLIST))))))
-PROBDEP= $(addprefix $(PROBLEMS)/, $(PROBS))
+solutions: $(patsubst $(PROBLEMS)/problem%.tex, $(OUT)/reseni%.pdf, $(wildcard $(PROBLEMS)/problem$(BATCHNO)-*.tex))
+series: $(OUT)/serial$(BATCHNO).pdf
 
-# == graphics dependence ==
-GRAPHDEP_MANUAL=
-include Makefile-graphics.inc #has to be after GRAPHDEP_MANUAL, defines GRAPHDEP
+# == problem and graphics dependence ==
+DEPS_PROBS= $(wildcard $(PROBLEMS)/problem$(BATCHNO)*) $(call graphics-deps,$(PGRAPHICS),$(BATCHNO)-)
+DEPS_SOLVEDPROBS= $(foreach batchno,$(SOLVEDBATCHNO),$(wildcard $(PROBLEMS)/problem$(batchno)*) \
+				  $(call graphics-deps,$(PGRAPHICS),$(batchno)-))
+DEPS_GRAPHICS_BATCH = $(call graphics-deps,$(GRAPHICS))
+DEPS_GRAPHICS_MANUAL=
 
-#SERIEDEP=$(PROBDEP) uvod$(BATCHNO).tex serial$(BATCHNO).tex $(addprefix $(GRAPHICS)/, $(GRAPHDEP)) ../Deadline.inc
-# Use variant below when Astrid supports xsltproc.
-SERIEDEP=$(PROBDEP) uvod$(BATCHNO).tex serial$(BATCHNO).tex problems$(BATCHNO).tex $(SIGNATURES) \
-	$(addprefix $(GRAPHICS)/, $(GRAPHDEP)) \
-	$(addprefix $(RESULTS)/vysledky, $(addsuffix .tex,$(foreach foo,$(SOLVEDBATCHNO),$(addprefix $(foo)-,$(RESULTSLIST)))))\
-	$(foreach foo,$(SOLVEDBATCHNO),$(addprefix $(addprefix $(RESULTS)/statistiky,$(foo)),.csv))\
+# keep exported graphics of current batch
+.SECONDARY: $(DEPS_PROBS) $(DEPS_SOLVEDPROBS) $(DEPS_GRAPHICS_BATCH) $(DEPS_GRAPHICS_MANUAL)
+
+SERIEDEP=uvod$(BATCHNO).tex serial$(BATCHNO).tex $(SIGNATURES) \
+	$(DEPS_PROBS) $(DEPS_SOLVEDPROBS) $(DEPS_GRAPHICS_BATCH) $(DEPS_GRAPHICS_MANUAL)\
+	$(addprefix $(RESULTS)/vysledky, $(addsuffix .tex,$(foreach batchno,$(SOLVEDBATCHNO),$(addprefix $(batchno)-,$(RESULTSLIST)))))\
+	$(foreach batchno,$(SOLVEDBATCHNO),$(addprefix $(addprefix $(RESULTS)/statistiky,$(batchno)),.csv))\
 	../Deadline.inc
 
 
-XELATEX_Z=xelatex -output-directory $(@D) -jobname $(basename $(@F)) '\def\UseOption{web}$(ARG)\input{$<}' || (rm -f $@ && false)
-$(OUT)/zadani$(BATCHNO).pdf: problems$(BATCHNO).tex $(SERIEDEP)
-	$(XELATEX_Z)
-	$(XELATEX_Z)
-
-XELATEX=xelatex -output-directory $(@D) -jobname $(basename $(@F)) '\def\UseOption{web}$(ARG)\input{$<}' || (rm -f $@ && false)
-$(OUT)/serie$(BATCHNO).pdf: batch$(BATCHNO).tex $(SERIEDEP)
-	$(XELATEX)
-	$(XELATEX)
-
-XELATEX2=xelatex -output-directory $(@D) -jobname '$(basename $(@F))' '\def\classoptions{twoside}\def\UseOption{print}$(ARG)\input{$<}' || (rm -f $@ && false)
-$(OUT)/serie$(BATCHNO)-print.pdf: batch$(BATCHNO).tex $(SERIEDEP)
-	$(XELATEX2)
-	$(XELATEX2)
-
-$(OUT)/serie$(BATCHNO)-book.pdf: $(OUT)/serie$(BATCHNO)-print.pdf
+$(OUT)/zadani$(BATCHNO).pdf: problems$(BATCHNO).tex $(DEPS_PROBS) ../Deadline.inc | $(OUT)
+	$(call XELATEX,'\def\UseOption{web}$(ARG)\input{$<}')
+$(OUT)/serie$(BATCHNO).pdf: batch$(BATCHNO).tex $(SERIEDEP) | $(OUT)
+	$(call XELATEX,'\def\UseOption{web}$(ARG)\input{$<}')
+$(OUT)/serie$(BATCHNO)-print.pdf: batch$(BATCHNO).tex $(SERIEDEP) | $(OUT)
+	$(call XELATEX,'\def\classoptions{twoside}\def\UseOption{print}$(ARG)\input{$<}')
+$(OUT)/serie$(BATCHNO)-book.pdf: $(OUT)/serie$(BATCHNO)-print.pdf | $(OUT)
 	pdfbook --booklet true --outfile '$@' $<
-
-XELATEX_S=xelatex -output-directory $(@D) -jobname '$(basename $(@F))' '\documentclass[SEM]{fksseries}\setcounter{year}{Y}\setcounter{batch}{$(BATCHNO)}\begin{document}\input{$<}\par\makefooter\end{document}' || (rm -f $@ && false)
-$(OUT)/serial$(BATCHNO).pdf: serial$(BATCHNO).tex $(addprefix $(GRAPHICS)/, $(GRAPHDEP)) $(SIGNATURES)
-	$(XELATEX_S)
-	$(XELATEX_S)
+$(OUT)/serial$(BATCHNO).pdf: serial$(BATCHNO).tex $(DEPS_GRAPHICS_BATCH) $(SIGNATURES) | $(OUT)
+	$(call XELATEX,'\documentclass[SEM]{fksseries}\setcounter{year}{Y}\setcounter{batch}{$(BATCHNO)}\begin{document}\input{$<}\par\makefooter\end{document}')
 
 clean:
 	find $(OUT) -type f -not \( -name "*.pdf" -o -name ".*" \) | xargs rm
@@ -72,7 +62,6 @@ cleanall:
 
 
 # == XML for web transport ==
-
 define XML_DEFS_LEGACY
 \def\batchno{$(BATCHNO)}\
 \def\problemcount{PB}\
@@ -85,12 +74,12 @@ define XML_DEFS
 $(ARG_XML)
 endef
 
-$(OUT)/zadaniWeb$(BATCHNO)-cs.xml: $(PROBLEMS)/web.tex $(SERIEDEP)
+$(OUT)/zadaniWeb$(BATCHNO)-cs.xml: $(PROBLEMS)/web.tex $(wildcard $(PROBLEMS)/problem$(BATCHNO)*) ../Deadline.inc | $(OUT)
 	xelatex -output-directory $(@D) -jobname $(basename $(@F)) '$(XML_DEFS_LEGACY)\def\lang{cs}\input{$<}'
-
-$(OUT)/zadaniWeb$(BATCHNO)-en.xml: $(PROBLEMS)/web.tex $(SERIEDEP)
+$(OUT)/zadaniWeb$(BATCHNO)-en.xml: $(PROBLEMS)/web.tex $(wildcard $(PROBLEMS)/problem$(BATCHNO)*) ../Deadline.inc | $(OUT)
 	xelatex -output-directory $(@D) -jobname $(basename $(@F)) '$(XML_DEFS_LEGACY)\def\lang{en}\input{$<}'
-$(OUT)/zadaniWeb$(BATCHNO)-new.xml: $(SERIEDEP)
+
+$(OUT)/zadaniWeb$(BATCHNO)-new.xml: $(wildcard $(PROBLEMS)/problem$(BATCHNO)*) ../Deadline_xml.inc | $(OUT)
 	xelatex -output-directory $(@D) -jobname $(basename $(@F)) '$(XML_DEFS)\documentclass[SEM]{fksbase}\setcounter{year}{Y}\input{fks-web-xml}'
 	fks-web-xml.sh $@ > $@.tmp
 	cat $@.tmp | tr -d '\n' | sed 's/<\(.*\)>\s*<\/\1>//g' > $@
