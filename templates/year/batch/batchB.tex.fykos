@@ -9,8 +9,6 @@
 \deadline{\mdeadline}
 \deadlineS{\mdeadlineS}
 
-\newfontfamily\cyrillicfont[Script=Cyrillic]{Liberation Serif}
-
 \begin{document}
 
 \maketitle
@@ -40,12 +38,6 @@
 \problemsolution
 \problemsolution
 
-\vfill
-\begin{center}
-	\includegraphics[width=0.7\textwidth]{logo2.eps} 
-\end{center}
-\vfill
-
 \newpage
 \input{serial\thebatch.tex}
 
@@ -66,8 +58,6 @@ Kompletní výsledky najdete na \url{http://fykos.cz}.
 
 \subsection{Kategorie čtvrtých ročníků}~\vspace{-10pt}\par%
 \resultstab{vysledkyB-4}
-
-%\newpage
 
 \vfill
 

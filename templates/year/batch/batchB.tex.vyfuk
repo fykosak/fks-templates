@@ -9,8 +9,6 @@
 \deadline{\mdeadline}
 \deadlineS{\mdeadlineS}
 
-\newfontfamily\cyrillicfont[Script=Cyrillic]{Liberation Serif}
-
 \begin{document}
 
 \maketitle
