@@ -8,6 +8,6 @@ clean:
 	true
 
 install:
-	rm -r $(DST)
+	rm -rf $(DST)/*
 	mkdir -p $(DST)
 	cp -r templates/* -t $(DST)/
