@@ -41,23 +41,14 @@
 \newpage
 \input{serial\thebatch.tex}
 
-\newpage
-
+\vfill
 \resultsheading
+\begin{center}
+	\qrcode[height=2.5cm]{https://fykos.cz/rocnik\theyear/poradi/serie\thesolvedbatch}
+	\bigskip
 
-Kompletní výsledky najdete na \url{http://fykos.cz}.
-
-\subsection{Kategorie prvních ročníků}~\vspace{-10pt}\par%
-\resultstab{vysledkyB-1}
-
-\subsection{Kategorie druhých ročníků}~\vspace{-10pt}\par%
-\resultstab{vysledkyB-2}
-
-\subsection{Kategorie třetích ročníků}~\vspace{-10pt}\par%
-\resultstab{vysledkyB-3}
-
-\subsection{Kategorie čtvrtých ročníků}~\vspace{-10pt}\par%
-\resultstab{vysledkyB-4}
+	\parbox{0.3\textwidth}{\centering Kompletní výsledky najdete na \url{https://fykos.cz}.}
+\end{center}
 
 \vfill
 

@@ -53,9 +53,9 @@ $(OUT)/serie$(BATCHNO)-print.pdf: batch$(BATCHNO).tex $(SERIEDEP) | $(OUT)
 $(OUT)/serie$(BATCHNO)-book.pdf: $(OUT)/serie$(BATCHNO)-print.pdf | $(OUT)
 	pdfbook --booklet true --outfile '$@' $<
 $(OUT)/serial$(BATCHNO).pdf: serial$(BATCHNO).tex $(DEPS_GRAPHICS_BATCH) $(SIGNATURES) | $(OUT)
-	$(call XELATEX,'\documentclass[fykos]{fksseries}\setcounter{year}{37}\setcounter{batch}{$(BATCHNO)}\begin{document}\input{$<}\par\makefooter\end{document}')
+	$(call XELATEX,'\documentclass[SEM]{fksseries}\setcounter{year}{Y}\setcounter{batch}{$(BATCHNO)}\begin{document}\input{$<}\par\makefooter\end{document}')
 $(OUT)/serial$(BATCHNO)-en.pdf: serial$(BATCHNO)-en.tex $(DEPS_GRAPHICS_BATCH) $(SIGNATURES) | $(OUT)
-	$(call XELATEX,'\documentclass[fykos$(comma)english]{fksseries}\setcounter{year}{37}\setcounter{batch}{$(BATCHNO)}\begin{document}\input{$<}\par\makefooter\end{document}')
+	$(call XELATEX,'\documentclass[SEM$(comma)english]{fksseries}\setcounter{year}{Y}\setcounter{batch}{$(BATCHNO)}\begin{document}\input{$<}\par\makefooter\end{document}')
 
 clean:
 	find $(OUT) -type f -not \( -name "*.pdf" -o -name ".*" \) | xargs rm
@@ -66,20 +66,14 @@ cleanall:
 
 
 # == XML for web transport ==
-define XML_DEFS_LEGACY
-\def\batchno{$(BATCHNO)}\
-\def\problemcount{8}\
-$(ARG_CS)
-endef
-
 define XML_DEFS
 \def\batchno{$(BATCHNO)}\
-\def\problemcount{8}\
+\def\problemcount{PB}\
 $(ARG_XML)
 endef
 
 $(OUT)/zadaniWeb$(BATCHNO)-new.xml: $(wildcard $(PROBLEMS)/problem$(BATCHNO)*) ../Deadline_xml.inc | $(OUT)
-	xelatex -output-directory $(@D) -jobname $(basename $(@F)) '$(XML_DEFS)\documentclass[fykos]{fksbase}\setcounter{year}{37}\input{fks-web-xml}'
+	xelatex -output-directory $(@D) -jobname $(basename $(@F)) '$(XML_DEFS)\documentclass[SEM]{fksbase}\setcounter{year}{Y}\input{fks-web-xml}'
 	fks-web-xml.sh $@ > $@.tmp
 	cat $@.tmp | tr -d '\n' | sed 's/<\(.*\)>\s*<\/\1>//g' > $@
 	rm -f $@.tmp
