@@ -47,7 +47,7 @@
 	\qrcode[height=2.5cm]{https://fykos.cz/rocnik\theyear/poradi/serie\thesolvedbatch}
 	\bigskip
 
-	\parbox{0.3\textwidth}{\centering Kompletní výsledky najdete na \url{https://fykos.cz}.}
+	\parbox{0.3\textwidth}{\centering Kompletní výsledky najdete na \url{https://fykos.cz/rocnik\theyear/poradi/serie\thesolvedbatch}.}
 \end{center}
 
 \vfill
