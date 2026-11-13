@@ -39,9 +39,9 @@ DEPS_GRAPHICS_MANUAL=
 
 SERIEDEP=uvod$(BATCHNO).tex serial$(BATCHNO).tex $(SIGNATURES) \
 	$(DEPS_PROBS) $(DEPS_SOLVEDPROBS) $(DEPS_GRAPHICS_BATCH) $(DEPS_GRAPHICS_MANUAL)\
-	$(addprefix $(RESULTS)/vysledky, $(addsuffix .tex,$(foreach batchno,$(SOLVEDBATCHNO),$(addprefix $(batchno)-,$(RESULTSLIST)))))\
 	$(foreach batchno,$(SOLVEDBATCHNO),$(addprefix $(addprefix $(RESULTS)/statistiky,$(batchno)),.csv))\
 	../Deadline.inc
+	#$(addprefix $(RESULTS)/vysledky, $(addsuffix .tex,$(foreach batchno,$(SOLVEDBATCHNO),$(addprefix $(batchno)-,$(RESULTSLIST)))))\
 
 
 $(OUT)/zadani$(BATCHNO).pdf: problems$(BATCHNO).tex $(DEPS_PROBS) ../Deadline.inc | $(OUT)

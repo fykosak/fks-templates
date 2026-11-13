@@ -2,7 +2,9 @@
   \def\classoptions{}
 \fi
 \documentclass[SEM,\classoptions]{fksbatch}
-    
+
+\usepackage[hyperlinks]{qrcode}
+
 \setcounter{year}{Y}
 \setcounter{batch}{B}
 \setcounter{solvedbatch}{AB}

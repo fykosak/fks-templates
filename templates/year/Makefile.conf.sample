@@ -1,5 +1,6 @@
 # path to web service client script (rather absolute)
 SOAPCLIENT := fks-soapclient.sh
+JSONCLIENT := fks-jsonclient.sh
 
 # path to old-style script for stats inscription
 STATS_SH := fks-dakos-stats.sh

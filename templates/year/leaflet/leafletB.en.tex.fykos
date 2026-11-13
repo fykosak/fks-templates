@@ -1,0 +1,167 @@
+\expandafter\ifx\csname classoptions\endcsname\relax
+  \def\classoptions{}
+\fi
+\documentclass[fykos]{fksempty}
+\setcounter{year}{Y}
+\setcounter{batch}{B}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\rocnikslovy{čtyřicátým}
+
+%\def\datumfyziklani{17.~2.~2017}
+%\def\datumfyziklani{obvykle v~únoru}
+%\def\datumfol{30.~11.~2016}
+%\def\datumfol{obvykle v~prosinci}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage{bbding}
+
+\newfontfamily\dcmid[Scale=1.9]{[lmssdc10.pfb]}
+\newfontfamily\dcbig[Scale=9]{[lmssbx10.pfb]}
+\newcommand\mss{\sffamily\fontsize{12pt}{12pt}\selectfont}
+\newcommand\mssb{\sffamily\fontsize{15pt}{15pt}\selectfont}
+
+\newlength\logohead
+\setlength\logohead{7mm}
+\newlength\logoskip
+\setlength\logoskip{5mm}
+\newcommand\nadpissptakemL[5]{
+	\subsection[#1]{%
+		\addtolength{\logoskip}{#4}%
+		\addtolength{\logohead}{#3}%
+		\makebox[3.4cm][l]{\hskip\logoskip\includegraphics[width=#5]{#2}}%
+		\raisebox{\logohead}{\LARGE #1}}}
+\newcommand\nadpissptakemLL[5]{%
+	\section[#1]{%
+		\addtolength{\logoskip}{#4}%
+		\addtolength{\logohead}{#3}%
+		\makebox[3.4cm][l]{\hskip\logoskip\includegraphics[width=#5]{#2}}%
+		\raisebox{\logohead}{\LARGE #1}}}
+
+\newcommand\otazka[1]{\vskip5mm\noindent{\mss #1}}
+
+\makeatletter
+\newcommand\RawLoadProblem[3]{\@LoadProblem{#1}{#2}{#3}}
+\makeatother
+
+\begin{document}
+
+\begin{center}
+\includegraphics[width=0.8\linewidth]{graphics/fykos_logo_black}
+\end{center}
+
+\begin{center}
+
+\vskip-5mm
+
+\otazka{Do you like to think about physics even if it seems too hard?}
+\otazka{Would you like to get your knowledge of physics beyond ordinary classwork?}
+
+\vskip5mm
+\includegraphics[width=0.75\textwidth]{logo3.eps}
+
+\otazka{Fancy a sneak peek into a real laboratory?}
+\otazka{Do unsloved physics problems haunt you in your sleep?}
+\vskip2mm
+\otazka{\mssb If any of your answers was YES,}
+\vskip-2mm
+\otazka{\mssb then FYKOS is just the thing for you!}
+
+\vfill
+\noindent{\includegraphics[width=55mm,
+	trim=0 45mm 0 0]{graphics/matfyz.pdf}}
+\end{center}
+\vskip\logoskip
+
+% -- konec titulní strany --
+
+\nadpissptakemL{What is {\FYKOS}?}{logo1.eps}{-1mm}{0mm}{2.5cm}
+
+{\FYKOS} is a correspondence-based competition allowing high school
+students to broaden their knowledge of physics by solving creative problem sets.
+The competition is organized by the Faculty of Mathematics and Physics,
+Charles University. The organizing team consists of students as well as
+teachers and employees of the faculty. 
+Its aim is to strenghten the problem-solving 
+skills of high school students and eventually prepare for competitions like IPhO.
+
+{\FYKOS} targets students interested in physics of all types of secondary
+(grade~9 to~12 in K-12~system or ISCED 3) education establishments. The participants
+should be able to comunicate either in~Czech, Slovak, or English. Every year,
+the~organizing team creates and publishes \textbf{six~eight-task problem sets}.
+Those intending to participate send their solutions using the {\FYKOS} web
+page. Once the organizing team corrects the solutions, they are sent back to
+the participants with commentaries on corrections.
+
+\nadpissptakemL{Why participate in {\FYKOS}?}{logo1.eps}{0mm}{0mm}{2.5cm}
+
+Tackling {\FYKOS} problem sets helps participants enlarge their physics 
+problem-solving toolkit and get to understand the different concepts in more depth. 
+{\FYKOS} can also serve as preparation for other physics-related competitions.
+
+The participants with sufficient point scores are invited to {\FYKOS} camps 
+(organised twice a year), where they meet many like-minded peers. Friendships 
+created during the camps last through university and even longer. And of course, 
+exciting and rewarding prizes await the most successful problem-solvers.
+
+\nadpissptakemL{How to participate in {\FYKOS}?}{logo1.eps}{0mm}{0mm}{2.5cm}
+
+You can find \textbf{the registration form} on our website \url{fykos.org}
+along with the information regarding writing and submiting the solution, 
+and the evaluation criteria. The websites contain among others the information 
+on \textbf{other events} organised by {\FYKOS} or \textbf{the prizes} available. 
+Follow us on our \textbf{Facebook} official page \url{http://www.facebook.com/FYKOS}.
+
+\medskip
+
+%nejsou-li aktuality, vložit obrázek fykosáka
+
+\begin{center}
+\vskip5mm
+\metavar{address}
+\vskip5mm
+\end{center}
+
+\newpage
+
+%--- začátek stran 3 a 4 = zadání a návratka
+
+\nadpissptakemLL{The \thebatch{}th problem set of the
+\Roman{year}st~edition}{logo12.eps}{0mm}{0mm}{2.8cm}
+
+\medskip
+You can submit your solutions via our web page \textbf{until~\mdeadline}.
+\medskip
+
+\problemtask
+\problemtask
+\problemtask
+\problemtask
+\problemtask
+\problemtask
+\problemtask
+
+%\problemtask
+\makeatletter
+\stepcounter{problem}
+\RawLoadProblem{\thebatch}{\theproblem}{%
+\problem[\metaprobletter{problem}: seriálová úloha]
+{Problem \problemnum{batch}{problem} \,\ldots{} serial problem\hfill
+{\normalfont\normalsize\problempoints}}
+The next instalment of the serial and the text of the serial problem can be found on our website.}
+\makeatother
+%\par\noindent\emph{Poznámka}\quad Text seriálu naleznete na našem webu.
+%\input{return2.tex}
+%\hbox to \hsize{\hfill\scalebox{1}[1]{\includegraphics[height=5cm]{logo3.pdf}}\hfill}
+%\vglue 0.3cm
+%sem fykosáka, kdyby bylo místo
+%
+% \vfill
+% \fullfig{fykos-mechanika}{}{}[width=0.7\textwidth]
+\vfill
+
+\makefooter
+\vfill
+
+\end{document}

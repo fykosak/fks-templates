@@ -1,0 +1,141 @@
+\expandafter\ifx\csname classoptions\endcsname\relax
+  \def\classoptions{}
+\fi
+\documentclass[fykos]{fksempty}
+\setcounter{year}{Y}
+\setcounter{batch}{B}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\def\rocnikslovy{čtyřicátým}
+
+%\def\datumfyziklani{17.~2.~2017}
+%\def\datumfyziklani{obvykle v~únoru}
+%\def\datumfol{30.~11.~2016}
+%\def\datumfol{obvykle v~prosinci}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\usepackage{bbding}
+
+\newfontfamily\dcmid[Scale=1.9]{[lmssdc10.pfb]}
+\newfontfamily\dcbig[Scale=9]{[lmssbx10.pfb]}
+\newcommand\mss{\sffamily\fontsize{12pt}{12pt}\selectfont}
+\newcommand\mssb{\sffamily\fontsize{15pt}{15pt}\selectfont}
+
+\newlength\logohead
+\setlength\logohead{7mm}
+\newlength\logoskip
+\setlength\logoskip{2mm}
+
+\newcommand\otazka[1]{\vskip5mm\noindent{\mss #1}}
+
+\makeatletter
+\newcommand\RawLoadProblem[3]{\@LoadProblem{#1}{#2}{#3}}
+\makeatother
+
+\begin{document}
+
+\begin{center}
+\includegraphics[width=0.8\linewidth]{graphics/fykos_logo_black}
+\end{center}
+
+\begin{center}
+
+\vskip-5mm
+
+\otazka{Přemýšlíte nad fyzikálními problémy, i~když jsou na
+	první pohled obtížné?}
+\otazka{Chcete se fyzikou zabývat i~mimo školní lavice?}
+
+\vskip5mm
+\includegraphics[width=0.75\textwidth]{logo2.eps}
+
+\otazka{Zajímá vás, co se odehrává v laboratořích?}
+\otazka{Už jste někdy nemohli usnout, dokud jste nevypočítali
+	příklad?}
+\vskip2mm
+\otazka{\mssb Odpověděli jste alespoň na jednu otázku ano?}
+\vskip-2mm
+\otazka{\mssb Řešte FYKOS!}
+
+\vfill
+\noindent{\includegraphics[width=55mm,
+	trim=0 45mm 0 0]{graphics/matfyz.pdf}}
+\end{center}
+
+% -- konec titulní strany --
+
+\section{Zadání \thebatch.~série \Roman{year}.~ročníku}
+
+\medskip
+Vyřešené úlohy můžete elektronicky nahrávat \textbf{do~\mdeadline}.
+\medskip
+
+\problemtask
+\problemtask
+\problemtask
+\problemtask
+\problemtask
+\problemtask
+\problemtask
+
+% Pokud seriálová úloha je
+\problemtask
+\par\noindent\emph{Poznámka}\quad Text seriálu naleznete na našem webu.
+
+% Pokud seriálová úloha není
+% \makeatletter
+% \stepcounter{problem}
+% \RawLoadProblem{\thebatch}{\theproblem}{%
+% \problem[\metaprobletter{problem}: seriálová úloha]%
+% {Úloha \problemnum{batch}{problem} \,\ldots{} seriálová úloha\hfill
+% {\normalfont\normalsize\problempoints}}
+% \textit{Text nového dílu seriálu a~zadání seriálové úlohy brzy najdete na našem webu.}}
+% \makeatother
+
+\newpage
+
+\subsection{Co je to {\FYKOS}?}
+{\FYKOS} (FYzikální KOrespondenční Seminář) představuje pro studenty středních
+škol možnost rozšířit si znalosti fyziky na řešení netradičních úloh. Seminář
+organizují studenti a~zaměstnanci Matematicko-fyzikální fakulty Univerzity
+Karlovy již {\rocnikslovy} rokem. Cílem FYKOSu je inspirace a vzdělávání
+žáků SŠ ve fyzice a přidružených vědách a oborech, motivovat je a poskytovat
+jim příležitosti pro další rozvoj. %#účel
+
+\subsection{Komu je určen {\FYKOS}?}
+{\FYKOS} je určen všem zájemcům o~fyziku ze všech ročníků a~typů středních škol
+kdekoliv ve světě, kteří jsou schopni komunikovat česky, slovensky nebo
+anglicky. Šestkrát do roka zveřejníme a~rozešleme \textbf{osmici úloh}.
+Vyřešené úlohy nám pošlete poštou nebo přes webové rozhraní. Vaše úlohy
+opravíme, zveřejníme na webu autorská řešení a~Vaše řešení spolu s~komentáři
+rozešleme poštou zpět.
+
+\subsection{Proč řešit {\FYKOS}?}
+Řešením úloh {\FYKOS}u získáte praxi v~řešení fyzikálních problémů a~hlubší
+náhled na jejich podstatu. {\FYKOS} je též velmi vhodnou přípravou pro současné
+a~budoucí úspěšné řešitele jiných fyzikálních soutěží (Fyzikální olympiáda,
+TMF, SOČ apod.).
+
+Pro nejlepší řešitele jsou připravena dvě soustředění, kde se seznámíte se
+spoustou nových přátel, se kterými máte minimálně jednu společnou
+zálibu~-- fyziku. Mnohá z~těchto přátelství pak přetrvávají během studia na VŠ
+i~déle. A~samozřejmě na nejlepší řešitele v~každé kategorii čekají hodnotné
+a~zajímavé ceny.
+
+\subsection{Jak se zapojit?}
+\textbf{Registrační formulář} naleznete na našich webových stránkách
+\url{fykos.cz} spolu s informacemi o tom, co má obsahovat správné řešení, jak
+se řešení vyhodnocuje, jaké \textbf{další akce} pořádáme, co můžete dostat za
+\textbf{odměny} a mnoho dalšího.
+
+
+\vfill
+\begin{center}
+\metavar{address}
+\end{center}
+\makefooter
+\vfill
+
+\end{document}
